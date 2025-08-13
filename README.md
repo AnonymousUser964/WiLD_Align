@@ -70,7 +70,7 @@ WiLD-Align integrates range measurements from Wi-Fi RSSI into an inter-robot fra
 ### Install message format (`WiLD-Align_msgs`)
 ```bash
 cd ~/wild_align_msgs/src
-git clone http://github.com/anonymous/WiLD-Align.git
+git clone https://github.com/AnonymousUser964/WiLD_Align.git
 git checkout WiLD_msgs
 cd ../
 catkin_make
@@ -79,7 +79,7 @@ catkin_make
 ### Install WiLD-Align
 ```bash
 cd ~/wild_align_ws/src
-git clone http://github.com/anonymous/WiLD-Align.git
+git clone https://github.com/AnonymousUser964/WiLD_Align.git
 cd ../
 source ~/wild_align_msgs/devel/setup.bash
 catkin_make
