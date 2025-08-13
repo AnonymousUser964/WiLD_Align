@@ -59,7 +59,7 @@ WiLD-Align integrates range measurements from Wi-Fi RSSI into an inter-robot fra
 ## Package Dependencies
 
 - **[GTSAM](https://gtsam.org/)** — For PCM and keyframe handling  
-- **[PMC](https://github.com/ethz-asl/pcm)** — For Pairwise Consistency Maximization  
+- **[PMC]** — For Pairwise Consistency Maximization  
 - **[PCL](https://pointclouds.org/)** — For point cloud processing in WiLD-Align  
 - **[ROS Noetic](http://wiki.ros.org/noetic)** — Core middleware
 
