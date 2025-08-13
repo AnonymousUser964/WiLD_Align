@@ -164,7 +164,7 @@ catkin_make
 Set `demoMode` in `interOptimization.cpp` to `false` for deployment.
 
 ## Datasets
-Raw robot pair datasets can be found on [Google Drive](https://drive.google.com/drive/anonymous) — containing LiDAR, IMU, and RSSI captures from two robots.
+Raw robot pair datasets can be found on [Google Drive](https://drive.google.com/drive/folders/1nBQmlLJm1U56DQsAWjlI_VHNSGsOqWHh?usp=sharing) — containing LiDAR, IMU, and RSSI captures from two robots.
 
 ## Running WiLD-Align
 Launch the system:
