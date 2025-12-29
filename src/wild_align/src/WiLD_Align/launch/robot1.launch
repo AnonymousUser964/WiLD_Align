@@ -1,0 +1,15 @@
+<launch>
+  <group ns="robot1">
+    <arg name="project" default="wild_slam"/>
+    
+    <!-- Load Parameters-->
+    <rosparam file="$(find wild_slam)/config/params.yaml" command="load" />
+
+    <!-- Launch CSLAM Nodes-->
+    <include file="$(find wild_slam)/launch/include/nodes.launch"/>
+
+    <!-- Launch Rvis-->
+    <include file="$(find wild_slam)/launch/include/rvizR1.launch"/>
+    
+  </group>
+</launch>

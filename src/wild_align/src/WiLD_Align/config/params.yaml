@@ -1,0 +1,29 @@
+wild_align:
+  # WiLD topics 
+  rangeWindowing: true
+  numberRobots: 2                                                           #determines the indexing of robot data
+  rangeTopics: ["wild_align/range1"]                                           #numberRobots-1 topics for sub range data
+  keyframeTopics: ["wild_align/local_keyframe","wild_align/peer1_keyframe"] #numberRobots topics for sub keyframe data
+  pathTopics: ["wild_align/local_path","wild_align/peer1_path"]             #numberRobots topics for pub path data   
+  cloudTopics: ["wild_align/local_cloud","wild_align/peer1_cloud"]             #numberRobots topics for pub cloud data  
+  keyframePublishTopic: "wild_align/pub_keyframe"                           #topic for releasing keyframes
+  relativeMeasurementsTopic: "wild_align/relative_measurements" 
+
+  # WiLD variables
+  publishFrequency: 1
+  requestFrequency: 1.5
+  searchFrequency: 0.5
+  reistrationSearchDistance: 5.0
+  rangeNoiseBound: 5.0
+  use2Dmapping: true
+  trustRSSIThreshold: 52
+
+  residualErrorThresh: 0.2
+  thresholdTrustedRMNumber: 1
+  bowSearchWindow: 3         
+
+  saveMap: false    
+
+
+
+
