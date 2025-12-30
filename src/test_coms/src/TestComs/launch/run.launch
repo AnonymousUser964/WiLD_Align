@@ -1,0 +1,6 @@
+<launch>
+
+    <arg name="project" default="coms"/>
+        <node pkg="$(arg project)" type="$(arg project)_coms"      name="$(arg project)_coms"       output="screen"     respawn="true"/>
+
+</launch>
