@@ -9,9 +9,11 @@ find_package(catkin REQUIRED COMPONENTS
   tf
   roscpp
   rospy
+  roslib
   cv_bridge
   # pcl library
   pcl_conversions
+  pcl_ros
   # msgs
   std_msgs
   sensor_msgs
@@ -52,7 +54,8 @@ generate_messages(
 catkin_package(
   INCLUDE_DIRS include
   DEPENDS PCL GTSAM
-
+  roscpp 
+  rospy
   CATKIN_DEPENDS
   std_msgs
   nav_msgs
@@ -145,6 +148,7 @@ target_link_libraries(global_map_solver
    graph_utils
    pairwise_consistency
    fast_max-clique_finder
+   ${catkin_LIBRARIES}
 )
 
 # Inter Optimization

@@ -6,6 +6,7 @@
 #include <math.h>
 #include <gtsam/inference/Symbol.h>
 #include <ros/ros.h>
+#include <ros/package.h>
 
 #ifdef LOG_DIR
 #define DIR LOG_DIR
@@ -35,8 +36,9 @@ std::pair<std::vector<int>, int> GlobalMap::pairwiseConsistencyMaximization() {
     Eigen::MatrixXi consistency_matrix = pairwise_consistency_.computeConsistentMeasurementsMatrix();
     char robot_id = gtsam::Symbol(pairwise_consistency_.getTransformsRobot1().start_id).chr();
     //std::string consistency_matrix_file = CONSISTENCY_MATRIX_FILE_NAME + "_" + robot_id + ".clq.mtx";
-    std::string consistency_matrix_file = "";
-    std::string consistency_loop_closures_file = "";
+    std::string log_path = ros::package::getPath("wild_align") + "/logs";
+    std::string consistency_matrix_file = log_path + "/consistency_matrix.clq.mtx";
+    std::string consistency_loop_closures_file = log_path + "/consistent_loop_closures.txt";
     if(consistency_matrix_file.empty()){std::cout << "Need to initialize path to logs for PCM in global_map.cpp << std::endl" << std::endl;}
     graph_utils::printConsistencyGraph(consistency_matrix, consistency_matrix_file);
     // Compute maximum clique
