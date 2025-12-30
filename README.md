@@ -88,12 +88,12 @@ bash launch_test.sh
 
 ### General
 There are configurations you will want to set for your specific system before running WiLD-Align, found in **`src/wild_align/src/WiLD_Align/config/params.yaml`**. These should be adjusted based on the quality of your incoming data, the maximum reliable distance to generate loop closures over, the accuracy of your ranging device (which is WiFi RSSI in our paper), and the minimum number of measurements you want to consider before attempting to integrate range-based alignments
--**registrationSearchDistance:** The max distance between range-aligned trajectories to be considered for loop closures; indoor/confined-->5-10m, outdoor/open-->15-25m
--**rangeNoiseBound:** The max range where distance measurements become dominated by noise; RSSI indoor/confined-->5-10m, RSSI outdoor/open-->15-30m
--**use2Dmapping:** Switch between 3D (good for multi-level environments) and 2D (faster and good for cartesian environements) GNC_LM range solvers
--**trustRSSIThreshold:** Sets a minimum range measurement requirement before solving (set to no less than 3)
--**residualErrorThresh:** Sets ICP fitness threshold for loop closure calculations (will depend on the quality of point clouds)
--**bowSearchWindow:** Sets pose neighborhood for the Bag of Words search of possible loop closures 
+- **registrationSearchDistance:** The max distance between range-aligned trajectories to be considered for loop closures; indoor/confined-->5-10m, outdoor/open-->15-25m
+- **rangeNoiseBound:** The max range where distance measurements become dominated by noise; RSSI indoor/confined-->5-10m, RSSI outdoor/open-->15-30m
+- **use2Dmapping:** Switch between 3D (good for multi-level environments) and 2D (faster and good for cartesian environements) GNC_LM range solvers
+- **trustRSSIThreshold:** Sets a minimum range measurement requirement before solving (set to no less than 3)
+- **residualErrorThresh:** Sets ICP fitness threshold for loop closure calculations (will depend on the quality of point clouds)
+- **bowSearchWindow:** Sets pose neighborhood for the Bag of Words search of possible loop closures 
 
 ### Adding your own Lidar SLAM system 
 > **Note:** This project includes a fork of LIO-SAM, whose parameters are adjusted to match the topics and data in the bags we provide. 
