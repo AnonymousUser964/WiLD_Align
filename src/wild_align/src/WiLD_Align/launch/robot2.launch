@@ -1,15 +1,15 @@
 <launch>
   <group ns="robot2">
-    <arg name="project" default="wild_slam"/>
+    <arg name="project" default="wild_align"/>
     
     <!-- Load Parameters-->
-    <rosparam file="$(find wild_slam)/config/params.yaml" command="load" />
+    <rosparam file="$(find wild_align)/config/params.yaml" command="load" />
 
     <!-- Launch CSLAM Nodes-->
-    <include file="$(find wild_slam)/launch/include/nodes.launch"/>
+    <include file="$(find wild_align)/launch/include/nodes.launch"/>
 
     <!-- Launch Rvis-->
-    <include file="$(find wild_slam)/launch/include/rviz.launch"/>
+    <include file="$(find wild_align)/launch/include/rvizR2.launch"/>
     
   </group>
 </launch>
