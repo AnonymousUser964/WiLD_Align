@@ -84,7 +84,7 @@ bash build_all_test.sh
 bash launch_test.sh
 ```
 
-## Setup for WiLD-Align
+## Setup
 
 ### General
 There are configurations you will want to set for your specific system before running WiLD-Align, found in **`src/wild_align/src/WiLD_Align/config/params.yaml`**. These should be adjusted based on the quality of your incoming data, the maximum reliable distance to generate loop closures over, the accuracy of your ranging device (which is WiFi RSSI in our paper), and the minimum number of measurements you want to consider before attempting to integrate range-based alignments
