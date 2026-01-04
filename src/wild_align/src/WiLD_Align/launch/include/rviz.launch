@@ -3,6 +3,7 @@
     <arg name="project" default="wild_align"/>
 
     <!-- Launch Rvis-->
+    <param name="/rosout/logger_levels/ros.rviz.quaternions" value="ERROR"/>
     <node pkg="rviz" type="rviz" name="$(arg project)_rviz" args="-d $(find wild_align)/launch/include/config/rviz.rviz"/>
 
 </launch>

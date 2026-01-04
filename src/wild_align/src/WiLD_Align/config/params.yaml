@@ -1,6 +1,5 @@
 wild_align:
   # WiLD topics 
-  rangeWindowing: true
   numberRobots: 2                                                           #determines the indexing of robot data
   rangeTopics: ["wild_align/range1"]                                           #numberRobots-1 topics for sub range data
   keyframeTopics: ["wild_align/local_keyframe","wild_align/peer1_keyframe"] #numberRobots topics for sub keyframe data
@@ -10,18 +9,22 @@ wild_align:
   relativeMeasurementsTopic: "wild_align/relative_measurements" 
 
   # WiLD variables
-  publishFrequency: 1
-  requestFrequency: 1.5
-  searchFrequency: 0.5
-  reistrationSearchDistance: 5.0
-  rangeNoiseBound: 5.0
-  use2Dmapping: true
-  trustRSSIThreshold: 52
+  publishFrequency: 1               #Rate for publishing thread       
+  requestFrequency: 1.5             #Rate for sending data requests
+  searchFrequency: 0.5              #Rate for searching for loop closure candidates
 
-  residualErrorThresh: 0.2
-  thresholdTrustedRMNumber: 1
-  bowSearchWindow: 3         
+  reistrationSearchDistance: 5.0    #How close should keyframes be for reliable loop closure
+  rangeNoiseBound: 5.0              #Reasonable error bound for range measurements 
+  use2Dmapping: true                #Selects the 2D or 3D range solver
+  trustRSSIThreshold: 52            #Number of RSSI measurements to be collected for a reliable model (referenced in paper)
 
+  residualErrorThresh: 0.2          #ICP residual threshold
+  bowSearchWindow: 3                #Size of keyframe neighborhood to be searched via BoW
+  
+
+  #Demo variables activate normally unhelpful behaviors for visualizations for 2 robots
+  demoMode: false                   #Share all point clouds for visualization
+  reportData: false                 #Report size of data recieved                               
   saveMap: false    
 
 
