@@ -47,7 +47,7 @@
 
 ## System Architecture
 
-WiLD-Align integrates range measurements from Wi-Fi RSSI into an inter-robot frame alignment process. Pairwise Consistency Maximization (PCM) identifies consistent constraints, and selected keyframes are refined through point cloud registration.
+WiLD-Align integrates range measurements from Wi-Fi RSSI into the inter-robot frame alignment process, informing the keyframe search. The range-based model of another robot's trajectory creates a strong starting point for a bag of words (BoW) selection of keyframes. Only these keyframes are exchanged and used in registration to generate relative measurements. Finally, they are put through Pairwise Consistency Maximization (PCM) to identify mutully consistent measurements for a tight trajectory alignment.
 
 <p align="center">
     <img src="./doc/architecture.png" alt="WiLD-Align Architecture" width="800"/>
@@ -56,17 +56,28 @@ WiLD-Align integrates range measurements from Wi-Fi RSSI into an inter-robot fra
 ---
 
 ## Package Dependencies
+- **[ROS Noetic](http://wiki.ros.org/noetic)**  
+  This package was developed and tested using ROS Noetic on Ubuntu 20.04 and has not yet been validated on other ROS distributions.
 
-- **[GTSAM](https://gtsam.org/)** — For PCM and keyframe handling  
-- **[PMC]** — For Pairwise Maximum Clique  
-- **[PCL](https://pointclouds.org/)** — For point cloud processing in WiLD-Align  
-- **[ROS Noetic](http://wiki.ros.org/noetic)** — Core middleware
-
+- **[GTSAM](https://gtsam.org/) (>= 4.0.3)**  
+  GTSAM is used to support Pairwise Consistency Maximization (PCM) and to define keyframe and pose-graph–related functionality.  
+  One supported installation method is via the official BorgLab PPA:
+  ```bash
+  sudo add-apt-repository ppa:borglab/gtsam-release-4.0
+  sudo apt install libgtsam-dev
+  
+- **[PCL](https://pointclouds.org/)**
+  PCL is used for point cloud processing in WiLD-Align. PCL is typically installed automatically as part of a standard ROS Noetic installation
+  
+- **[Eigen](https://gitlab.com/libeigen/eigen/-/releases/3.3.7)** 
+  Eigen is used for many of our operations and is installed by default with ROS Noetic.
 ---
 
 ## Installation & Launch
 
 ### Install & Launch WiLD-Align
+This project uses a fork of [LIO-SAM](https://github.com/AnonymousUser964/LIO-SAM), which requires the arguement `--recurse-submodules` to be included during cloning. The following allows you to clone, build, and launch a typical instance of WiLD-Align:
+
 ```bash
 cd ~/wild_align_ws
 git clone --recurse-submodules https://github.com/AnonymousUser964/WiLD_Align.git
@@ -76,6 +87,8 @@ bash launch.sh
 ```
 
 ### Launch WiLD-Align Demo Mode
+To test the project with the included rosbags, you will need to switch to the demo branch which includes additional build/launch files for creating a second instance of WiLD-Align, and a communication node to facilitate communication between the instances.
+
 ```bash
 cd ~/wild_align_ws
 git checkout demo
