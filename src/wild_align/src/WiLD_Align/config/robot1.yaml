@@ -13,19 +13,19 @@ wild_align:
   requestFrequency: 1.5             #Rate for sending data requests
   searchFrequency: 0.5              #Rate for searching for loop closure candidates
 
-  reistrationSearchDistance: 5.0    #How close should keyframes be for reliable loop closure
-  rangeNoiseBound: 5.0              #Reasonable error bound for range measurements 
-  use2Dmapping: true                #Selects the 2D or 3D range solver
-  trustRSSIThreshold: 52            #Number of RSSI measurements to be collected for a reliable model (referenced in paper)
+  reistrationSearchDistance: 10.0    #How close should keyframes be for reliable loop closure
+  rangeNoiseBound: 10.0              #Reasonable error bound for range measurements 
+  use2Dmapping: false                #Selects the 2D or 3D range solver
+  trustRSSIThreshold: 30           #Number of RSSI measurements to be collected for a reliable model (referenced in paper)
 
-  residualErrorThresh: 0.2          #ICP residual threshold
+  residualErrorThresh: 0.3          #ICP residual threshold
   bowSearchWindow: 3                #Size of keyframe neighborhood to be searched via BoW
   
 
   #Demo variables activate normally unhelpful behaviors for visualizations for 2 robots
-  demoMode: false                   #Share all point clouds for visualization
-  reportData: false                 #Report size of data recieved 
-  verbose: false                              
+  demoMode: true                   #Share all point clouds for visualization
+  reportData: true                 #Report size of data recieved 
+  verbose: true                              
   saveMap: false    
 
 

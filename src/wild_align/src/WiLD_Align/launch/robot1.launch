@@ -3,7 +3,7 @@
     <arg name="project" default="wild_align"/>
     
     <!-- Load Parameters-->
-    <rosparam file="$(find wild_align)/config/params.yaml" command="load" />
+    <rosparam file="$(find wild_align)/config/robot1.yaml" command="load" />
 
     <!-- Launch CSLAM Nodes-->
     <include file="$(find wild_align)/launch/include/nodes.launch"/>

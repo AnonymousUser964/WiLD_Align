@@ -3,25 +3,25 @@
 **WiFi Localization Driven Frame Alignment (WiLD-Align) is a frame alignment pipeline that incorporates Wi-Fi RSSI-based range measurements into inter-robot frame alignment. By narrowing the loop closure search space and prioritizing keyframes for refinement, WiLD-Align reduces perceptual aliasing, communication requirements, and extraneous point cloud registrations.**
 
 <p align="center">
-    <img src="./config/doc/Example.gif" alt="WiLD-Align Demo" width="800"/>
+    <img src="./doc/Example.gif" alt="WiLD-Align Demo" width="800"/>
 </p>
 
 <p align="center">
     <table>
         <tr>
-            <td><img src="./config/doc/BoWG.png" width="250"/></td>
-            <td><img src="./config/doc/BoWN.png" width="250"/></td>
-            <td><img src="./config/doc/BoWB.png" width="250"/></td>
+            <td><img src="./doc/BoWG.png" width="250"/></td>
+            <td><img src="./doc/BoWN.png" width="250"/></td>
+            <td><img src="./doc/BoWB.png" width="250"/></td>
         </tr>
         <tr>
-            <td><img src="./config/doc/RangeG.png" width="250"/></td>
-            <td><img src="./config/doc/RangeN.png" width="250"/></td>
-            <td><img src="./config/doc/RangeB.png" width="250"/></td>
+            <td><img src="./doc/RangeG.png" width="250"/></td>
+            <td><img src="./doc/RangeN.png" width="250"/></td>
+            <td><img src="./doc/RangeB.png" width="250"/></td>
         </tr>
         <tr>
-            <td><img src="./config/doc/WiLDG.png" width="250"/></td>
-            <td><img src="./config/doc/WiLDN.png" width="250"/></td>
-            <td><img src="./config/doc/WiLDB.png" width="250"/></td>
+            <td><img src="./doc/WiLDG.png" width="250"/></td>
+            <td><img src="./doc/WiLDN.png" width="250"/></td>
+            <td><img src="./doc/WiLDB.png" width="250"/></td>
         </tr>
     </table>
 </p>
@@ -37,10 +37,9 @@
 
 - [**System Architecture**](#system-architecture)
 - [**Package Dependencies**](#package-dependencies)
-- [**Installation**](#installation)
+- [**Installation & Launch**](#installation)
 - [**Setup**](#setup)
 - [**Datasets**](#datasets)
-- [**Running WiLD-Align**](#running-wild-align)
 - [**TODO**](#todo)
 - [**Acknowledgement**](#acknowledgement)
 
@@ -51,7 +50,7 @@
 WiLD-Align integrates range measurements from Wi-Fi RSSI into an inter-robot frame alignment process. Pairwise Consistency Maximization (PCM) identifies consistent constraints, and selected keyframes are refined through point cloud registration.
 
 <p align="center">
-    <img src="./config/doc/architecture.png" alt="WiLD-Align Architecture" width="800"/>
+    <img src="./doc/architecture.png" alt="WiLD-Align Architecture" width="800"/>
 </p>
 
 ---
@@ -59,43 +58,47 @@ WiLD-Align integrates range measurements from Wi-Fi RSSI into an inter-robot fra
 ## Package Dependencies
 
 - **[GTSAM](https://gtsam.org/)** — For PCM and keyframe handling  
-- **[PMC]** — For Pairwise Consistency Maximization  
+- **[PMC]** — For Pairwise Maximum Clique  
 - **[PCL](https://pointclouds.org/)** — For point cloud processing in WiLD-Align  
 - **[ROS Noetic](http://wiki.ros.org/noetic)** — Core middleware
 
 ---
 
-## Installation
+## Installation & Launch
 
-### Install message format (`WiLD-Align_msgs`)
+### Install & Launch WiLD-Align
 ```bash
-cd ~/wild_align_msgs/src
+cd ~/wild_align_ws
 git clone https://github.com/AnonymousUser964/WiLD_Align.git
-git checkout WiLD_msgs
-cd ../
-catkin_make
+cd WiLD_Align/scripts
+bash build_all.sh
+bash launch.sh
 ```
 
-### Install WiLD-Align
+### Launch WiLD-Align Demo Mode
 ```bash
-cd ~/wild_align_ws/src
-git clone https://github.com/AnonymousUser964/WiLD_Align.git
-cd ../
-source ~/wild_align_msgs/devel/setup.bash
-catkin_make
+cd ~/wild_align_ws
+git checkout demo
+cd WiLD_Align/scripts
+bash build_all_test.sh
+bash launch_test.sh
 ```
 
 ## Setup
-> **Note:** The package will not run until configuration is complete.
 
-1. **Edit file paths** to max clique logs (in `/logs`) in:
-   ```
-   src/pairwise_consistency_maximization/global_map/global_map.cpp
-   ```
-   to include your home directory.
+### General
+There are configurations you will want to set for your specific system before running WiLD-Align, found in **`src/wild_align/src/WiLD_Align/config/params.yaml`**. These should be adjusted based on the quality of your incoming data, the maximum reliable distance to generate loop closures over, the accuracy of your ranging device (which is WiFi RSSI in our paper), and the minimum number of measurements you want to consider before attempting to integrate range-based alignments
+- **registrationSearchDistance:** The max distance between range-aligned trajectories to be considered for loop closures; indoor/confined-->5-10m, outdoor/open-->15-25m
+- **rangeNoiseBound:** The max range where distance measurements become dominated by noise; RSSI indoor/confined-->5-10m, RSSI outdoor/open-->15-30m
+- **use2Dmapping:** Switch between 3D (good for multi-level environments) and 2D (faster and good for cartesian environements) GNC_LM range solvers
+- **trustRSSIThreshold:** Sets a minimum range measurement requirement before solving (set to no less than 3)
+- **residualErrorThresh:** Sets ICP fitness threshold for loop closure calculations (will depend on the quality of point clouds)
+- **bowSearchWindow:** Sets pose neighborhood for the Bag of Words search of possible loop closures 
 
-2. **Edit `config/params.yaml`** to reflect your desired keyframe and ranging topics.
-
+### Adding your own Lidar SLAM system 
+> **Note:** This project includes a fork of LIO-SAM, whose parameters are adjusted to match the topics and data in the bags we provide. 
+1. **Edit `src/wild_align/src/WiLD_Align/config/params.yaml`** to reflect your desired keyframe and ranging topics, and any expected thresholds.
+2. **Add your SLAM system to src/slam/src** and remove LIO-SAM.
 3. **Add the following ROS publisher and keyframe/trajectory publisher** to your SLAM system:
 ```cpp
 #include <wildalign_msgs/keyframe.h>
@@ -142,43 +145,19 @@ thisKeyframe.identifier = 0;
 pubKeyframe.publish(thisKeyframe);
 numberMessagesSent++;
 ```
-
 4. **Add to `CMakeLists.txt`** under `find_package`, `generate_messages`, and `catkin_package`:
 ```
 wildalign_msgs
 ```
-
 5. **Add to `package.xml`**:
 ```xml
 <build_depend>wildalign_msgs</build_depend> 
 <run_depend>wildalign_msgs</run_depend> 
 ```
-
-6. **Recompile**:
-```bash
-source ~/wild_align_msgs/devel/setup.bash
-catkin_make
-```
-
-7. **Disable demo mode**  
-Set `demoMode` in `interOptimization.cpp` to `false` for deployment.
+6. **Recompile** either through catkin_make or with scripts/build_all.sh
 
 ## Datasets
-Raw robot pair datasets can be found on [Google Drive](https://drive.google.com/drive/folders/1nBQmlLJm1U56DQsAWjlI_VHNSGsOqWHh?usp=sharing) — containing LiDAR, IMU, and RSSI captures from two robots.
-
-## Running WiLD-Align
-Launch the system:
-```bash
-source devel/setup.bash
-roslaunch wild_align run.launch
-```
-
-To run in test mode with namespaces `/robot1` and `/robot2`:
-```bash
-roslaunch wild_align robot1.launch
-roslaunch wild_align robot2.launch
-```
-> **Note:** You must create a communications node in ROS to facilitate inter-robot data exchange.
+Robot pair datasets can be found on [Google Drive](https://drive.google.com/drive/folders/1nBQmlLJm1U56DQsAWjlI_VHNSGsOqWHh?usp=sharing) — containing LiDAR, IMU, and RSSI captures from two robots.These are designed to be run with the demo branch of this project. 
 
 ## TODO
 - Update to ROS2 and provide CSLAM system integrations  

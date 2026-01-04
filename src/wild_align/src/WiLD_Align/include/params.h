@@ -82,12 +82,15 @@ public:
     int bowSearchWindow;
     float residualErrorThresh;
     float reistrationSearchDistance;
-    int thresholdTrustedRMNumber;
     float rangeNoiseBound;
     bool use2Dmapping;
     int trustRSSIThreshold;
+    int thresholdTrustedRMNumber;
 
     bool saveMap;
+    bool demoMode;
+    bool reportData;
+    bool verbose;
 
     Params()
     {
@@ -115,8 +118,10 @@ public:
         nh.param<std::string>("wild_align/relativeMeasurementsTopic", relativeMeasurementsTopic, "wild_align/relative_measurements");
         
         nh.param<bool>("wild_align/saveMap", saveMap, false);
+        nh.param<bool>("wild_align/demoMode", demoMode, false);
+        nh.param<bool>("wild_align/demoMode", reportData, false);
+        nh.param<bool>("wild_align/demoMode", verbose, false);
         nh.param<int>("wild_align/bowSearchWindow", bowSearchWindow, 5);
-        nh.param<int>("wild_align/trustRSSIThreshold", trustRSSIThreshold, 40);
 
         nh.param<float>("wild_align/residualErrorThresh", residualErrorThresh, 0.3);
         nh.param<float>("wild_align/rangeNoiseBound", rangeNoiseBound, 5);

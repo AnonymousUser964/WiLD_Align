@@ -1,4 +1,3 @@
-//This project is seperate from any specific SLAM system, 
 //Some functions of WiLD-align are inspired or adapted from TixiaoShan's LIO-SAM: https://github.com/TixiaoShan/LIO-SAM  
 
 #include "params.h"
@@ -65,7 +64,6 @@ public:
     ros::Publisher pubMeasurements;
 
     //Demo
-    bool demoMode = true;
     bool comprehensive = true;
     ros::Publisher pubDemoClouds, pubDemoRequests;
     ros::Subscriber subDemoClouds, subDemoRequests;
@@ -111,23 +109,17 @@ public:
     ros::Publisher pubLocalCloud;
     ros::Publisher pubPeerCloud;
 
-    int cliqueThreshold = 5;
-
-
-
     //Visualization offset
     gtsam::Pose3 offset;
 
-    //Controls
-    bool buildComprehensiveMap = true; 
-
-    //CSLAM variables
+    //WiLD variables
     ros::Time timeInfoStamp;
 
     //Given your system speed, change the queue of subscriber data to match your speed and memory needs 
     interOptimization()
     {   
         offset = gtsam::Pose3(gtsam::Rot3::RzRyRx(0, 0, 0),gtsam::Point3(25, 25, 0));
+        thresholdTrustedRMNumber = -1;
 
         keyframeQ.resize(numberRobots-1);
         measurementQ.resize(numberRobots-1);
@@ -151,15 +143,15 @@ public:
             
         }
 
+        //Define range modules for tracking and modeling trajectory alignments
         for(int i = 1; i < numberRobots; i++){
             auto rangeModule = std::make_shared<RangeModule>(keyframeContainers[0], keyframeContainers[i], reistrationSearchDistance, rangeNoiseBound, trustRSSIThreshold, use2Dmapping);
             rangeModules.push_back(rangeModule);
             subRanges.push_back(nh.subscribe<std_msgs::Float64MultiArray>(rangeTopics[i-1], 5, &RangeModule::rangeMeasurementHandler, rangeModule.get(), ros::TransportHints().tcpNoDelay()));
-            
             auto rigid = std::make_shared<RigidAlignment>();
-
             optimizers.push_back(rigid);
         }
+
 
         for(int i = 0; i < numberRobots; i++){
             nav_msgs::Path path;
@@ -215,7 +207,7 @@ public:
             pcl::io::savePCDFileBinary(directory + "/LocalMap.pcd", *LocalMapCloud);
             pcl::io::savePCDFileBinary(directory + "/LocalEx.pcd", *keyframeContainers[0]->pointClouds[2]);
         }
-
+        float totalMemory = 0;
         for(int z = 1; z < numberRobots; z++){
             keyframeContainers[z]->demoUpdate();
 
@@ -249,10 +241,16 @@ public:
                     pcl::io::savePCDFileBinary(directory + "/peer" + std::to_string(z) + "UnalignedTransformations.pcd", *(keyframeContainers[z]->keyPoses6D));
                 }
             }
-            float totalMemory = keyframeContainers[z]->reportSize();
-            ROS_INFO("Data for robot %d is %f MB", z,totalMemory);
-            ROS_INFO("ICP Itterations: %d", icp + icpAbove);
-                
+            float tempMemory = keyframeContainers[z]->reportSize();
+            totalMemory += tempMemory;
+            if(reportData){
+                ROS_INFO("Data for robot %d is %f MB", z, tempMemory);
+            }
+        }
+        if(reportData){
+            ROS_INFO("Total data recieved is %f MB", totalMemory);
+            ROS_INFO("Baseline ICP Itterations: %d", icp + icpAbove);
+            ROS_INFO("Additional ICP Itterations: %d", icpAbove);
         }
         int retcomb = pcl::io::savePCDFileBinary(directory + "/FinalMap.pcd", *CombinedMapCloud);
         results.success = retcomb == 0;
@@ -521,14 +519,14 @@ public:
 ////////////////////////////////////////////////////////////////////
     //Request BoW based on the proximity of trajectories aligned with ranges
     void requestBoW(){
-        //Empty range queue into a local structure
         static std::vector<std::queue<std::pair<int,int>>> requests(numberRobots-1);
         for(int z = 0; z < numberRobots-1; z++){
+            //Empty range queue into a local structure
             while(!rangeModules[z]->searchPairs.empty()){
                 requests[z].push(rangeModules[z]->searchPairs.front());
                 rangeModules[z]->popQueue();
             }
-            //Prepare request based on missing data 
+            //Prepare data request based on missing data 
             std::vector<uint32_t> bowRequest;
             int numReq = requests[z].size();
             if(numReq == 0) return;
@@ -594,9 +592,8 @@ public:
     //Uses current BoW available to discover relative measurements
     void searchMeasurementCandidates(){
         static std::vector<map<int, vector<int>>> checkedIndexContainer(numberRobots-1);
-
         for(int z = 0; z < numberRobots-1; z++){
-            if(!candidateQ[z].empty() && requestFlag && keyframeContainers[z+1]->pcm.acceptedMeasurements.size() < 15){
+            if(!candidateQ[z].empty() && requestFlag && (keyframeContainers[z+1]->pcm.acceptedMeasurements.size() < 15)){
                 while(!candidateQ[z].empty() && requestFlag){
                     candidateMTX[z].lock();
                     std::pair<int,int> keys = candidateQ[z].front();
@@ -668,6 +665,7 @@ public:
                     rm = KeyframeContainer::calculateRelativeMeasurement(measurements[i].first, measurements[i].second, *keyframeContainers[0], *keyframeContainers[z+1]);
                 }
                 icp++;
+                if(verbose) ROS_INFO("Local frame %d to peer frame %d ICP residual is %f",measurements[i].first, measurements[i].second, rm.residual);
                 if(rm.residual < residualErrorThresh && rm.residual != -1){
                     optimizers[z]->addRelativeMeasure((keyframeContainers[0]->gtsamPoses[measurements[i].first]*rm.relativePose.inverse()*keyframeContainers[z+1]->gtsamPoses[measurements[i].second].inverse()).matrix(), measurements[i].first,measurements[i].second);
                     keyframeContainers[z+1]->pcm.addMeasurement(measurements[i].first,measurements[i].second,rm.relativePose,rm.covarianceMatrix, rm.constraintNoise);
@@ -731,11 +729,11 @@ public:
         }
     }
     void printMatrix3d(const Eigen::MatrixXd& mat, const std::string& label) {
-    std::stringstream ss;
-    ss << "\n" << label << ":\n";
-    ss << mat;
-    ROS_INFO_STREAM(ss.str());
-}
+        std::stringstream ss;
+        ss << "\n" << label << ":\n";
+        ss << mat;
+        ROS_INFO_STREAM(ss.str());
+    }
 
 
     Eigen::Matrix4d Pose3ToEigenMatrix(const gtsam::Pose3& pose) {
@@ -763,7 +761,7 @@ int main(int argc, char** argv)
     
     interOptimization IO;
     
-    ROS_INFO("\033[----> Inter-Robot Map Alignment.\033[0m");
+    ROS_INFO("\033[---->  Inter-Robot Map Alignment.\033[0m");
     
     std::thread communicationThread(&interOptimization::communicationThread, &IO);
     std::thread publishThread(&interOptimization::publishThread, &IO);
