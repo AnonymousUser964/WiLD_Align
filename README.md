@@ -3,25 +3,25 @@
 **WiFi Localization Driven Frame Alignment (WiLD-Align) is a frame alignment pipeline that incorporates Wi-Fi RSSI-based range measurements into inter-robot frame alignment. By narrowing the loop closure search space and prioritizing keyframes for refinement, WiLD-Align reduces perceptual aliasing, communication requirements, and extraneous point cloud registrations.**
 
 <p align="center">
-    <img src="./config/doc/Example.gif" alt="WiLD-Align Demo" width="800"/>
+    <img src="./doc/Example.gif" alt="WiLD-Align Demo" width="800"/>
 </p>
 
 <p align="center">
     <table>
         <tr>
-            <td><img src="./config/doc/BoWG.png" width="250"/></td>
-            <td><img src="./config/doc/BoWN.png" width="250"/></td>
-            <td><img src="./config/doc/BoWB.png" width="250"/></td>
+            <td><img src="./doc/BoWG.png" width="250"/></td>
+            <td><img src="./doc/BoWN.png" width="250"/></td>
+            <td><img src="./doc/BoWB.png" width="250"/></td>
         </tr>
         <tr>
-            <td><img src="./config/doc/RangeG.png" width="250"/></td>
-            <td><img src="./config/doc/RangeN.png" width="250"/></td>
-            <td><img src="./config/doc/RangeB.png" width="250"/></td>
+            <td><img src="./doc/RangeG.png" width="250"/></td>
+            <td><img src="./doc/RangeN.png" width="250"/></td>
+            <td><img src="./doc/RangeB.png" width="250"/></td>
         </tr>
         <tr>
-            <td><img src="./config/doc/WiLDG.png" width="250"/></td>
-            <td><img src="./config/doc/WiLDN.png" width="250"/></td>
-            <td><img src="./config/doc/WiLDB.png" width="250"/></td>
+            <td><img src="./doc/WiLDG.png" width="250"/></td>
+            <td><img src="./doc/WiLDN.png" width="250"/></td>
+            <td><img src="./doc/WiLDB.png" width="250"/></td>
         </tr>
     </table>
 </p>
@@ -50,7 +50,7 @@
 WiLD-Align integrates range measurements from Wi-Fi RSSI into an inter-robot frame alignment process. Pairwise Consistency Maximization (PCM) identifies consistent constraints, and selected keyframes are refined through point cloud registration.
 
 <p align="center">
-    <img src="./config/doc/architecture.png" alt="WiLD-Align Architecture" width="800"/>
+    <img src="./doc/architecture.png" alt="WiLD-Align Architecture" width="800"/>
 </p>
 
 ---
