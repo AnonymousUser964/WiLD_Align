@@ -69,7 +69,7 @@ WiLD-Align integrates range measurements from Wi-Fi RSSI into an inter-robot fra
 ### Install & Launch WiLD-Align
 ```bash
 cd ~/wild_align_ws
-git clone https://github.com/AnonymousUser964/WiLD_Align.git
+git clone --recurse-submodules https://github.com/AnonymousUser964/WiLD_Align.git
 cd WiLD_Align/scripts
 bash build_all.sh
 bash launch.sh
