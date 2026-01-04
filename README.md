@@ -195,9 +195,9 @@ To run a dataset, you will download a zip file of your selection which contains 
 
 ## Acknowledgement
 - WiLD-Align’s ROS framework was inspired by **[LIO-SAM](https://github.com/TixiaoShan/LIO-SAM)**  
-- Uses **[Scan Context](https://github.com/irapkaist/scancontext)**  
-- Uses **[Pairwise Consistency Maximization (PCM)](https://github.com/ethz-asl/pcm)**
-- Uses **[Pairwise Maximum Clique (PMC) Library](https://github.com/ryanrossi/pmc)** 
+- WiLD-Align uses to complete its BoW searches **[Scan Context](https://github.com/irapkaist/scancontext)**  
+- WiLD-Align uses to complete outlier rejection of inconsistent relative measurements **[Pairwise Consistency Maximization (PCM)](https://github.com/ethz-asl/pcm)**
+- WiLD-Align uses to generate its range-based trajectory model **[Pairwise Maximum Clique (PMC) Library](https://github.com/ryanrossi/pmc)** 
 ```
 
 
