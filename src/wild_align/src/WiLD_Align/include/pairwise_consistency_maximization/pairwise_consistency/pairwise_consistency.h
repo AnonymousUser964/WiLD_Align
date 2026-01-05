@@ -1,9 +1,10 @@
 // Copyright (C) 2018 by Pierre-Yves Lajoie <lajoie.py@gmail.com>
-
+//Not written by WiLD-Align
 #ifndef PAIRWISE_CONSISTENCY_H
 #define PAIRWISE_CONSISTENCY_H
 
-#include "graph_utils/graph_utils_functions.h"
+#include "pcm/graph_utils/graph_utils_functions.h"
+
 
 #include <eigen3/Eigen/Geometry>
 
@@ -16,7 +17,7 @@ namespace pairwise_consistency {
      * \brief Class for the computation of the pairwise consistency of loop closure edges
      */ 
     class PairwiseConsistency {
-      public:
+     public:
         /**
          * \brief Constructor
          *
@@ -41,7 +42,7 @@ namespace pairwise_consistency {
                             trajectory_robot1_(trajectory_robot1), trajectory_robot2_(trajectory_robot2),
                             nb_degree_freedom_(nb_degree_freedom), pcm_threshold_(pcm_threshold){};
 
-        /**
+                /**
          * \brief Computation of the consistency matrix
          *
          *
@@ -80,6 +81,8 @@ namespace pairwise_consistency {
          * @returns map of the inter-robot transforms
          */
         const graph_utils::Transforms& getTransformsInterRobot() const;
+    
+    
     private:
 
         /**
@@ -131,7 +134,9 @@ namespace pairwise_consistency {
         uint8_t nb_degree_freedom_;///< Number of degree of freedom of the measurements.
 
         double pcm_threshold_;///< Probability of a larger value of X^2.
-    };          
+
+    };
+
 
 }
 

@@ -25,7 +25,8 @@ wild_align:
   #Demo variables activate normally unhelpful behaviors for visualizations for 2 robots
   demoMode: false                   #Share all point clouds for visualization
   reportData: false                 #Report size of data recieved 
-  verbose: false                              
+  
+  verbose: false                    #Can be used to prepare a param file by reporting the output of point cloud registrations.                              
   saveMap: false    
 
 

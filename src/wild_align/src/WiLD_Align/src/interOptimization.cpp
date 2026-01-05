@@ -29,7 +29,7 @@
 #include <iostream>
 #include <tuple>
 
-#include "pcm/pairwise_consistency.h" //Adapted to work with this project; must be referenced after GTSAM
+#include "pairwise_consistency/pairwise_consistency.h" //Adapted to work with this project; must be referenced after GTSAM
 #include "graph_utils/graph_types.h"
 #include "robot_measurements/robot_local_map.h"
 #include "global_map/global_map.h"
@@ -84,9 +84,9 @@ public:
 
     //Keyframe Request Queue
     std::vector<std::queue<int>> keyframeQ;
-    std::vector<std::queue<pair<int,int>>> measurementQ;
-    std::vector<std::queue<pair<int,int>>> descriptorQ;
-    std::vector<std::queue<pair<int,int>>> candidateQ;
+    std::vector<std::queue<std::pair<int,int>>> measurementQ;
+    std::vector<std::queue<std::pair<int,int>>> descriptorQ;
+    std::vector<std::queue<std::pair<int,int>>> candidateQ;
     std::vector<std::mutex> keyframeMTX;
     std::vector<std::mutex> measurementMTX;
     std::vector<std::mutex> candidateMTX;

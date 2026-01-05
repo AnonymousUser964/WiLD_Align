@@ -9,7 +9,7 @@
 #include <gtsam/slam/PriorFactor.h>
 #include <mutex>
 
-#include "pcm/pairwise_consistency.h"
+#include "pairwise_consistency/pairwise_consistency.h"
 #include "graph_utils/graph_types.h"
 #include "robot_measurements/robot_local_map.h"
 #include "global_map/global_map.h"
@@ -34,7 +34,7 @@ public:
     robot_measurements::RobotLocalMap map;
     graph_utils::Transforms measurements;
     std::vector<int> acceptedMeasurements;
-    std::vector<pair<int,int>> allMeasurements;
+    std::vector<std::pair<int,int>> allMeasurements;
     std::vector<gtsam::noiseModel::Diagonal::shared_ptr> allMeasurementNoise;
     std::vector<gtsam::Pose3> allMeasurementPoses;
     gtsam::Pose3 prevPose;

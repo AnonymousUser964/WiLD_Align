@@ -60,22 +60,22 @@
     measurement.j = jkey;
     measurement.pose = pose;
     measurement.is_loopclosure = true;
-    bool replace = check.find(make_pair(ikey,jkey)) != check.end();
+    bool replace = check.find(std::make_pair(ikey,jkey)) != check.end();
 
-    measurements.transforms[make_pair(ikey, jkey)] = measurement;
+    measurements.transforms[std::make_pair(ikey, jkey)] = measurement;
     measurements.start_id = 0;
     measurements.end_id = measurements.transforms.size();
    
     if(!replace){
-      allMeasurements.push_back(make_pair(i, j));
+      allMeasurements.push_back(std::make_pair(i, j));
       allMeasurementNoise.push_back(constraintNoise);
       allMeasurementPoses.push_back(relative_pose);
-      check[make_pair(ikey,jkey)] = make_pair(allMeasurements.size()-1, covarianceMatrix(0, 0)- 0.000001);
+      check[std::make_pair(ikey,jkey)] = std::make_pair(allMeasurements.size()-1, covarianceMatrix(0, 0)- 0.000001);
     }else{
-      int ind = check[make_pair(ikey,jkey)].first;
+      int ind = check[std::make_pair(ikey,jkey)].first;
       allMeasurementNoise[ind] = constraintNoise;
       allMeasurementPoses[ind] = relative_pose;
-      check[make_pair(ikey,jkey)] = make_pair(ind, covarianceMatrix(0, 0)- 0.000001);
+      check[std::make_pair(ikey,jkey)] = std::make_pair(ind, covarianceMatrix(0, 0)- 0.000001);
     }
  }
 
@@ -83,7 +83,7 @@
    gtsam::Key ikey, jkey;
       ikey = i;
       jkey = j; 
-   bool replace = check.find(make_pair(ikey,jkey)) != check.end();
+   bool replace = check.find(std::make_pair(ikey,jkey)) != check.end();
     if(replace){
       graph_utils::PoseWithCovariance pose;
       pose.pose = relative_pose;
@@ -95,14 +95,14 @@
       measurement.pose = pose;
       measurement.is_loopclosure = true;
 
-      measurements.transforms[make_pair(ikey, jkey)] = measurement;
+      measurements.transforms[std::make_pair(ikey, jkey)] = measurement;
       measurements.start_id = 0;
       measurements.end_id = measurements.transforms.size();
 
-      int ind = check[make_pair(ikey,jkey)].first;
+      int ind = check[std::make_pair(ikey,jkey)].first;
       allMeasurementNoise[ind] = constraintNoise;
       allMeasurementPoses[ind] = relative_pose;
-      check[make_pair(ikey,jkey)] = make_pair(ind, covarianceMatrix(0, 0)- 0.000001);
+      check[std::make_pair(ikey,jkey)] = std::make_pair(ind, covarianceMatrix(0, 0)- 0.000001);
     }
  }
 
@@ -112,8 +112,8 @@
       gtsam::Key ikey, jkey;
       ikey = i;
       jkey = j;
-      if(check.find(make_pair(ikey,jkey)) != check.end()){
-         return check[make_pair(ikey,jkey)].second;
+      if(check.find(std::make_pair(ikey,jkey)) != check.end()){
+         return check[std::make_pair(ikey,jkey)].second;
       }
       else{
          return -1.0;

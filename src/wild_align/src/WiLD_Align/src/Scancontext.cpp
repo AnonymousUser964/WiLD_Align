@@ -144,7 +144,7 @@ std::pair<double, int> SCManager::distanceBtnScanContext( MatrixXd &_sc1, Matrix
         }
     }
 
-    return make_pair(min_sc_dist, argmin_shift);
+    return std::make_pair(min_sc_dist, argmin_shift);
 
 } // distanceBtnScanContext
 
