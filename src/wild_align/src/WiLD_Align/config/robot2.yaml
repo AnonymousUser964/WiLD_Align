@@ -16,7 +16,7 @@ wild_align:
   reistrationSearchDistance: 5.0    #How close should keyframes be for reliable loop closure
   rangeNoiseBound: 10.0              #Reasonable error bound for range measurements 
   use2Dmapping: true                #Selects the 2D or 3D range solver
-  trustRSSIThreshold: 90            #Number of RSSI measurements to be collected for a reliable model (referenced in paper)
+  trustRSSIThreshold: 110            #Number of RSSI measurements to be collected for a reliable model (referenced in paper)
 
   residualErrorThresh: 0.1         #ICP residual threshold
   bowSearchWindow: 3                #Size of keyframe neighborhood to be searched via BoW

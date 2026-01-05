@@ -125,6 +125,7 @@ public:
 
         nh.param<float>("wild_align/residualErrorThresh", residualErrorThresh, 0.3);
         nh.param<float>("wild_align/rangeNoiseBound", rangeNoiseBound, 5);
+        nh.param<int>("wild_align/trustRSSIThreshold", trustRSSIThreshold, 20);
         
         
 

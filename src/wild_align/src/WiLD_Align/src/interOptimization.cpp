@@ -119,7 +119,7 @@ public:
     interOptimization()
     {   
         offset = gtsam::Pose3(gtsam::Rot3::RzRyRx(0, 0, 0),gtsam::Point3(25, 25, 0));
-        thresholdTrustedRMNumber = -1;
+        thresholdTrustedRMNumber = 5;
 
         keyframeQ.resize(numberRobots-1);
         measurementQ.resize(numberRobots-1);
@@ -659,7 +659,8 @@ public:
                     
                 }
                 RelativeMeasurement rm;
-                if((keyframeContainers[z+1]->pcm.acceptedMeasurements.size() > thresholdTrustedRMNumber) && (rangeModules[z]->trajectoryEstimate.size() > 0)){
+                //if((keyframeContainers[z+1]->pcm.acceptedMeasurements.size() > thresholdTrustedRMNumber) && (rangeModules[z]->trajectoryEstimate.size() > 0)){
+                if((rangeModules[z]->trajectoryEstimate.size() > 0)){
                     rm = KeyframeContainer::calculateRelativeMeasurement(measurements[i].first, measurements[i].second, *keyframeContainers[0], *keyframeContainers[z+1], rangeModules[z]->trajectoryEstimate);
                 }else{ //Use initial alignment if range trajectory not available
                     rm = KeyframeContainer::calculateRelativeMeasurement(measurements[i].first, measurements[i].second, *keyframeContainers[0], *keyframeContainers[z+1]);
@@ -689,8 +690,8 @@ public:
                         for(int j: pointIdxRadiusSearch){
                             RelativeMeasurement rm;
                             rm = KeyframeContainer::calculateRelativeMeasurement(i, j, *keyframeContainers[0], *keyframeContainers[z+1], keyframeContainers[z+1]->gtsamEstimate);
-                            
                             float currentScore = keyframeContainers[z+1]->pcm.currentScore(i, j);
+                            if(verbose) ROS_INFO("Replaced Local frame %d to peer frame %d ICP residual %f with %f",measurements[i].first, measurements[i].second, currentScore, rm.residual);
                             if(rm.residual >= 0) {
                                 icpAbove++;
                             }else if(comprehensive){
