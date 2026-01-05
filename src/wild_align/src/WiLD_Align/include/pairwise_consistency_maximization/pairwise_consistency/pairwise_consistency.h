@@ -3,7 +3,7 @@
 #ifndef PAIRWISE_CONSISTENCY_H
 #define PAIRWISE_CONSISTENCY_H
 
-#include "pcm/graph_utils/graph_utils_functions.h"
+#include "pairwise_consistency_maximization/graph_utils/graph_utils_functions.h"
 
 
 #include <eigen3/Eigen/Geometry>
