@@ -202,7 +202,7 @@ Visualization Manager:
       Name: Current View
       Near Clip Distance: 0.009999999776482582
       Pitch: 1.1253981590270996
-      Target Frame: base_link
+      Target Frame: map
       Value: Orbit (rviz)
       Yaw: 3.3316705226898193
     Saved: ~

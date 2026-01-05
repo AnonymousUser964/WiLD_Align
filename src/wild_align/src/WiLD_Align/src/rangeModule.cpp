@@ -79,9 +79,12 @@ void RangeModule::rangeMeasurementHandler(const std_msgs::Float64MultiArrayConst
             }
             estimateCreated = true;
         }
+        ROS_INFO("%d ranges", rangeContainer.size());
 
 
-        if(estimateCreated && (rangeContainer.size() > waitUntil)) findCandiates();
+        if(estimateCreated && (rangeContainer.size() > waitUntil)){ 
+            ROS_INFO("Start search with %d ranges after waiting %d", rangeContainer.size(),waitUntil);
+            findCandiates();}
 
 
 
