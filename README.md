@@ -56,24 +56,25 @@ WiLD-Align integrates range measurements from Wi-Fi RSSI into the inter-robot fr
 ---
 
 ## Package Dependencies
-- **[ROS Noetic](http://wiki.ros.org/noetic)**  
-  This package was developed and tested using ROS Noetic on Ubuntu 20.04 and has not yet been validated on other ROS distributions.
+- **[ROS Noetic](https://wiki.ros.org/noetic/Installation/Ubuntu)**  
+  This package was developed and tested using ROS Noetic on Ubuntu 20.04 and has not yet been validated on other ROS distributions. We recommend `ros-noetic-desktop-full` as `ros-noetic-ros-base` is missing many of the packages needed for successful building.
   
 - **[CMake](https://cmake.org/download/) (>= 3.0)**
   This project compiles with C++14 and requires at least CMake 2.8.3 or greater. You can also install CMake and check your version via:
-    ```bash
+  ```bash
   sudo apt update
   sudo apt install cmake
   cmake --version
   ```	
 
 - **[GTSAM](https://gtsam.org/) (>= 4.0.3)**  
-  GTSAM is used to support Pairwise Consistency Maximization (PCM) and to define keyframe and pose-graph–related functionality.  
+  GTSAM is used to support Pairwise Consistency Maximization (PCM) and to define keyframe related functionality.  
   One supported installation method is via the official BorgLab PPA:
   ```bash
   sudo add-apt-repository ppa:borglab/gtsam-release-4.0
+  sudo apt update
   sudo apt install libgtsam-dev
-  ```	
+  ```
   
 - **[PCL](https://pointclouds.org/)**
   PCL is used for point cloud processing in WiLD-Align. PCL is typically installed automatically as part of a standard ROS Noetic installation
