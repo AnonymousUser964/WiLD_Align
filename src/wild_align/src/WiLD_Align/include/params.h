@@ -90,6 +90,7 @@ public:
     bool saveMap;
     bool demoMode;
     bool reportData;
+    bool verbose;
 
     Params()
     {
@@ -118,11 +119,13 @@ public:
         
         nh.param<bool>("wild_align/saveMap", saveMap, false);
         nh.param<bool>("wild_align/demoMode", demoMode, false);
-        nh.param<bool>("wild_align/demoMode", reportData, false);
+        nh.param<bool>("wild_align/reportData", reportData, false);
+        nh.param<bool>("wild_align/verbose", verbose, false);
         nh.param<int>("wild_align/bowSearchWindow", bowSearchWindow, 5);
 
         nh.param<float>("wild_align/residualErrorThresh", residualErrorThresh, 0.3);
         nh.param<float>("wild_align/rangeNoiseBound", rangeNoiseBound, 5);
+        nh.param<int>("wild_align/trustRSSIThreshold", trustRSSIThreshold, 20);
         
         
 
